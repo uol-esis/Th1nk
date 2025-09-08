@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**getTableStructures**](DefaultApi.md#getTableStructures) | **GET** /table-structures | Get all table structures
 [**previewConvertTable**](DefaultApi.md#previewConvertTable) | **POST** /converter/preview | Convert a table and return a preview of the result
 [**submitFeedback**](DefaultApi.md#submitFeedback) | **POST** /feedback | Submit feedback
+[**updateTableStructure**](DefaultApi.md#updateTableStructure) | **PUT** /table-structures/{id} | Update table structure by id
 
 
 
@@ -459,4 +460,53 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: application/json
 - **Accept**: application/json
+
+
+## updateTableStructure
+
+> updateTableStructure(id, tableStructure)
+
+Update table structure by id
+
+### Example
+
+```javascript
+import Th1 from 'th1';
+let defaultClient = Th1.ApiClient.instance;
+// Configure OAuth2 access token for authorization: oAuth2Auth
+let oAuth2Auth = defaultClient.authentications['oAuth2Auth'];
+oAuth2Auth.accessToken = 'YOUR ACCESS TOKEN';
+
+let apiInstance = new Th1.DefaultApi();
+let id = 789; // Number | 
+let tableStructure = new Th1.TableStructure(); // TableStructure | 
+apiInstance.updateTableStructure(id, tableStructure, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+});
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Number**|  | 
+ **tableStructure** | [**TableStructure**](TableStructure.md)|  | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[oAuth2Auth](../README.md#oAuth2Auth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
 

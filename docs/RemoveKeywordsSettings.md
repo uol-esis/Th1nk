@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **removeRows** | **Boolean** | Whether to remove rows that contain a matching keyword. | [default to true]
 **removeColumns** | **Boolean** | Whether to remove columns that contain a matching keyword. | [default to true]
 **ignoreCase** | **Boolean** |  | [default to true]
-**matchType** | **String** |  | [default to &#39;CONTAINS&#39;]
+**matchType** | **String** |  | [default to &#39;EQUALS&#39;]
 
 
 

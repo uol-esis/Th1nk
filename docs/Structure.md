@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **startRow** | **Number** | The start row index of the area to split (inclusive). | [optional] 
 **startColumn** | **Number** | The index of the first data column to the right of the grouped header. | [optional] 
 **headerNames** | **[String]** | The header names | 
+**headerPlacementType** | [**HeaderPlacementType**](HeaderPlacementType.md) |  | 
 **threshold** | **Number** | The maximum number of invalid values in a row to be considered invalid. | [optional] 
 **blockList** | **[String]** | The list of values to be considered invalid. | [optional] 
 **search** | **String** | The string to search for in the table. | [optional] 
@@ -29,7 +30,7 @@ Name | Type | Description | Notes
 **removeRows** | **Boolean** | Whether to remove rows that contain a matching keyword. | [default to true]
 **removeColumns** | **Boolean** | Whether to remove columns that contain a matching keyword. | [default to true]
 **ignoreCase** | **Boolean** |  | [default to true]
-**matchType** | **String** |  | [default to &#39;CONTAINS&#39;]
+**matchType** | [**MatchType**](MatchType.md) |  | 
 
 
 
@@ -39,17 +40,6 @@ Name | Type | Description | Notes
 * `row` (value: `"row"`)
 
 * `column` (value: `"column"`)
-
-
-
-
-
-## Enum: MatchTypeEnum
-
-
-* `CONTAINS` (value: `"CONTAINS"`)
-
-* `EQUALS` (value: `"EQUALS"`)
 
 
 

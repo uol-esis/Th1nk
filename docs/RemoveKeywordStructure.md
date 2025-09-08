@@ -1,4 +1,4 @@
-# Th1.RemoveKeywordsStructure
+# Th1.RemoveKeywordStructure
 
 ## Properties
 

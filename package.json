@@ -1,6 +1,6 @@
 {
   "name": "th1",
-  "version": "1.26.0",
+  "version": "1.28.0",
   "description": "TH1",
   "license": "Unlicense",
   "main": "dist/index.js",

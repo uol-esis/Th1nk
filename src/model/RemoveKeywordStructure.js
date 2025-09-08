@@ -12,25 +12,28 @@
  */
 
 import ApiClient from '../ApiClient';
+import ConverterType from './ConverterType';
+import MatchType from './MatchType';
 
 /**
- * The RemoveKeywordsSettings model module.
- * @module model/RemoveKeywordsSettings
+ * The RemoveKeywordStructure model module.
+ * @module model/RemoveKeywordStructure
  * @version 1.28.0
  */
-class RemoveKeywordsSettings {
+class RemoveKeywordStructure {
     /**
-     * Constructs a new <code>RemoveKeywordsSettings</code>.
-     * @alias module:model/RemoveKeywordsSettings
-     * @param enabled {Boolean} 
+     * Constructs a new <code>RemoveKeywordStructure</code>.
+     * Configuration to remove rows and/or columns that contain specified keywords.
+     * @alias module:model/RemoveKeywordStructure
+     * @param converterType {module:model/ConverterType} 
      * @param removeRows {Boolean} Whether to remove rows that contain a matching keyword.
      * @param removeColumns {Boolean} Whether to remove columns that contain a matching keyword.
      * @param ignoreCase {Boolean} 
-     * @param matchType {module:model/RemoveKeywordsSettings.MatchTypeEnum} 
+     * @param matchType {module:model/MatchType} 
      */
-    constructor(enabled, removeRows, removeColumns, ignoreCase, matchType) { 
+    constructor(converterType, removeRows, removeColumns, ignoreCase, matchType) { 
         
-        RemoveKeywordsSettings.initialize(this, enabled, removeRows, removeColumns, ignoreCase, matchType);
+        RemoveKeywordStructure.initialize(this, converterType, removeRows, removeColumns, ignoreCase, matchType);
     }
 
     /**
@@ -38,27 +41,27 @@ class RemoveKeywordsSettings {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, enabled, removeRows, removeColumns, ignoreCase, matchType) { 
-        obj['enabled'] = enabled || true;
+    static initialize(obj, converterType, removeRows, removeColumns, ignoreCase, matchType) { 
+        obj['converterType'] = converterType;
         obj['removeRows'] = removeRows || true;
         obj['removeColumns'] = removeColumns || true;
         obj['ignoreCase'] = ignoreCase || true;
-        obj['matchType'] = matchType || 'EQUALS';
+        obj['matchType'] = matchType;
     }
 
     /**
-     * Constructs a <code>RemoveKeywordsSettings</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>RemoveKeywordStructure</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/RemoveKeywordsSettings} obj Optional instance to populate.
-     * @return {module:model/RemoveKeywordsSettings} The populated <code>RemoveKeywordsSettings</code> instance.
+     * @param {module:model/RemoveKeywordStructure} obj Optional instance to populate.
+     * @return {module:model/RemoveKeywordStructure} The populated <code>RemoveKeywordStructure</code> instance.
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new RemoveKeywordsSettings();
+            obj = obj || new RemoveKeywordStructure();
 
-            if (data.hasOwnProperty('enabled')) {
-                obj['enabled'] = ApiClient.convertToType(data['enabled'], 'Boolean');
+            if (data.hasOwnProperty('converterType')) {
+                obj['converterType'] = ConverterType.constructFromObject(data['converterType']);
             }
             if (data.hasOwnProperty('keywords')) {
                 obj['keywords'] = ApiClient.convertToType(data['keywords'], ['String']);
@@ -73,20 +76,20 @@ class RemoveKeywordsSettings {
                 obj['ignoreCase'] = ApiClient.convertToType(data['ignoreCase'], 'Boolean');
             }
             if (data.hasOwnProperty('matchType')) {
-                obj['matchType'] = ApiClient.convertToType(data['matchType'], 'String');
+                obj['matchType'] = MatchType.constructFromObject(data['matchType']);
             }
         }
         return obj;
     }
 
     /**
-     * Validates the JSON data with respect to <code>RemoveKeywordsSettings</code>.
+     * Validates the JSON data with respect to <code>RemoveKeywordStructure</code>.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>RemoveKeywordsSettings</code>.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>RemoveKeywordStructure</code>.
      */
     static validateJSON(data) {
         // check to make sure all required properties are present in the JSON string
-        for (const property of RemoveKeywordsSettings.RequiredProperties) {
+        for (const property of RemoveKeywordStructure.RequiredProperties) {
             if (!data.hasOwnProperty(property)) {
                 throw new Error("The required field `" + property + "` is not found in the JSON data: " + JSON.stringify(data));
             }
@@ -95,10 +98,6 @@ class RemoveKeywordsSettings {
         if (!Array.isArray(data['keywords'])) {
             throw new Error("Expected the field `keywords` to be an array in the JSON data but got " + data['keywords']);
         }
-        // ensure the json data is a string
-        if (data['matchType'] && !(typeof data['matchType'] === 'string' || data['matchType'] instanceof String)) {
-            throw new Error("Expected the field `matchType` to be a primitive type in the JSON string but got " + data['matchType']);
-        }
 
         return true;
     }
@@ -106,71 +105,48 @@ class RemoveKeywordsSettings {
 
 }
 
-RemoveKeywordsSettings.RequiredProperties = ["enabled", "removeRows", "removeColumns", "ignoreCase", "matchType"];
+RemoveKeywordStructure.RequiredProperties = ["converterType", "removeRows", "removeColumns", "ignoreCase", "matchType"];
 
 /**
- * @member {Boolean} enabled
- * @default true
+ * @member {module:model/ConverterType} converterType
  */
-RemoveKeywordsSettings.prototype['enabled'] = true;
+RemoveKeywordStructure.prototype['converterType'] = undefined;
 
 /**
  * A list of keywords to match against.  If a cell contains any of these keywords, the corresponding row or column will be removed. 
  * @member {Array.<String>} keywords
  */
-RemoveKeywordsSettings.prototype['keywords'] = undefined;
+RemoveKeywordStructure.prototype['keywords'] = undefined;
 
 /**
  * Whether to remove rows that contain a matching keyword.
  * @member {Boolean} removeRows
  * @default true
  */
-RemoveKeywordsSettings.prototype['removeRows'] = true;
+RemoveKeywordStructure.prototype['removeRows'] = true;
 
 /**
  * Whether to remove columns that contain a matching keyword.
  * @member {Boolean} removeColumns
  * @default true
  */
-RemoveKeywordsSettings.prototype['removeColumns'] = true;
+RemoveKeywordStructure.prototype['removeColumns'] = true;
 
 /**
  * @member {Boolean} ignoreCase
  * @default true
  */
-RemoveKeywordsSettings.prototype['ignoreCase'] = true;
+RemoveKeywordStructure.prototype['ignoreCase'] = true;
 
 /**
- * @member {module:model/RemoveKeywordsSettings.MatchTypeEnum} matchType
- * @default 'EQUALS'
+ * @member {module:model/MatchType} matchType
  */
-RemoveKeywordsSettings.prototype['matchType'] = 'EQUALS';
+RemoveKeywordStructure.prototype['matchType'] = undefined;
 
 
 
 
 
-/**
- * Allowed values for the <code>matchType</code> property.
- * @enum {String}
- * @readonly
- */
-RemoveKeywordsSettings['MatchTypeEnum'] = {
 
-    /**
-     * value: "CONTAINS"
-     * @const
-     */
-    "CONTAINS": "CONTAINS",
-
-    /**
-     * value: "EQUALS"
-     * @const
-     */
-    "EQUALS": "EQUALS"
-};
-
-
-
-export default RemoveKeywordsSettings;
+export default RemoveKeywordStructure;
 

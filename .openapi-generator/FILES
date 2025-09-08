@@ -12,6 +12,9 @@ docs/Feedback.md
 docs/FillEmptyColumnStructure.md
 docs/FillEmptyRowStructure.md
 docs/GroupedHeaderReport.md
+docs/HeaderPlacementType.md
+docs/MatchType.md
+docs/MatcherType.md
 docs/MergeColumnsStructure.md
 docs/MergeableColumnsReport.md
 docs/MissingEntryReport.md
@@ -26,6 +29,7 @@ docs/RemoveHeaderSettings.md
 docs/RemoveHeaderStructure.md
 docs/RemoveInvalidRowsSettings.md
 docs/RemoveInvalidRowsStructure.md
+docs/RemoveKeywordStructure.md
 docs/RemoveKeywordsSettings.md
 docs/RemoveKeywordsStructure.md
 docs/RemoveLeadingColumnSettings.md
@@ -65,6 +69,9 @@ src/model/Feedback.js
 src/model/FillEmptyColumnStructure.js
 src/model/FillEmptyRowStructure.js
 src/model/GroupedHeaderReport.js
+src/model/HeaderPlacementType.js
+src/model/MatchType.js
+src/model/MatcherType.js
 src/model/MergeColumnsStructure.js
 src/model/MergeableColumnsReport.js
 src/model/MissingEntryReport.js
@@ -79,6 +86,7 @@ src/model/RemoveHeaderSettings.js
 src/model/RemoveHeaderStructure.js
 src/model/RemoveInvalidRowsSettings.js
 src/model/RemoveInvalidRowsStructure.js
+src/model/RemoveKeywordStructure.js
 src/model/RemoveKeywordsSettings.js
 src/model/RemoveKeywordsStructure.js
 src/model/RemoveLeadingColumnSettings.js
