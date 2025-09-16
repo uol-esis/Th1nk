@@ -18,7 +18,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ExcelParsingService {
+public class ExcelOLE2ParsingService {
 
     private final DateNormalizerService dateNormalizerService;
     private final NumberNormalizerService numberNormalizerService;
@@ -39,7 +39,7 @@ public class ExcelParsingService {
      * @return a 2D String array containing the parsed and normalized sheet data
      * @throws IOException if the file cannot be read or parsed
      */
-    public String[][] parseExcel(InputStream inputStream, WorkbookFactory workbookFactory, Optional<Integer> page) throws IOException {
+    public String[][] readExcel(InputStream inputStream, WorkbookFactory workbookFactory, Optional<Integer> page) throws IOException {
         try (Workbook workbook = workbookFactory.create(inputStream)) {
             Sheet sheet = workbook.getSheetAt(page.orElse(0));
 
@@ -141,4 +141,3 @@ public class ExcelParsingService {
 
     }
 }
-
