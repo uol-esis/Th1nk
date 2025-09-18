@@ -34,9 +34,9 @@ public class TypeDetector {
 
         if (isTimestamp(raw, length)) return ValueType.TIMESTAMP;
 
-        if (isText(raw)) return ValueType.TEXT;
+        if (isNumber(raw)) return ValueType.NUMBER;
 
-        return ValueType.NUMBER;
+        return ValueType.TEXT;
     }
 
     private boolean isDate(String s, int length) {
@@ -59,13 +59,27 @@ public class TypeDetector {
         return TIMESTAMP_PATTERN.matcher(s).matches();
     }
 
-    private boolean isText(String s) {
+    private boolean isNumber(String s) {
+        boolean hasDigit = false;
+
         for (int i = 0; i < s.length(); i++) {
-            if (Character.isLetter(s.charAt(i))) {
-                return true;
+            char c = s.charAt(i);
+            if (Character.isWhitespace(c) || c == '\u00A0') continue;
+            if (Character.isDigit(c)) {
+                hasDigit = true;
+                continue;
             }
+            if (!isNumberSeparator(c, i)) return false;
         }
-        return false;
+        return hasDigit;
+    }
+
+    private boolean isNumberSeparator(char c, int idx) {
+        return switch (c) {
+            case '.', ',', '\'', '€', '$', '%' -> true;
+            case '-', '+' -> idx == 0;
+            default -> false;
+        };
     }
 
 }
