@@ -32,6 +32,7 @@ public class RemoveTrailingColumnConverter extends Converter {
 
         if (maxValidRowLength == 0) {
             log.debug("No valid trailing columns found — returning original matrix");
+            throwConverterException("All rows are invalid");
             return super.handleRequest(inputMatrix);
         }
 
