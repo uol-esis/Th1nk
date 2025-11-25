@@ -1,4 +1,4 @@
-# TH1
+# Th1nk Backend
 
 ## Building the project
 
@@ -14,13 +14,13 @@ This will build the project.
 To run the project, run the following command:
 
 ```bash
-java -jar target/TH1-1.0-SNAPSHOT.jar
+java -jar target/Th1nk-1.0-SNAPSHOT.jar
 ```
 
 ## OpenAPI
 
 This project uses OpenAPI to document the API and generate the server code.
-The OpenAPI Document is located [here](https://github.com/uol-esis/TH1-OpenAPI).
+The OpenAPI Document is located in the `../openapi` directory.
 You can read up on OpenAPI and the specification [here](https://spec.openapis.org/oas/v3.0.3) and use the
 [Reference Guide](https://swagger.io/docs/specification/v3_0/about/) by Swagger.
 

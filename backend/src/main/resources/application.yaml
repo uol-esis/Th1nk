@@ -1,6 +1,6 @@
 spring:
   application:
-    name: th1
+    name: th1nk
   threads:
     virtual:
       enabled: false
@@ -23,7 +23,7 @@ spring:
       max-request-size: 10MB
 server:
   port: 8080
-th1:
+th1nk:
   mb:
     api:
       key: <key>

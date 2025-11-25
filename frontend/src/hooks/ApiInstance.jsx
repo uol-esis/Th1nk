@@ -3,7 +3,7 @@ import keycloak from "../keycloak";
 
 export async function getApiInstance() {
   return (async () => {
-    const module = await import('th1');
+    const module = await import('th1nk');
 
     const client = new module.ApiClient(import.meta.env.VITE_API_ENDPOINT);
     const oAuth2Auth = client.authentications["oAuth2Auth"];
@@ -16,7 +16,7 @@ export async function getApiInstance() {
 
     const api = new module.DefaultApi(client);
 
-    return { api, Th1: module };
+    return { api, Th1nk: module };
   })();
 
 }

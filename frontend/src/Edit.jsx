@@ -5,12 +5,12 @@ import { useAuthGuard } from "./hooks/AuthGuard";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import Tooltip from "./ToolTip";
 import keycloak from "./keycloak";
-import { ApiClient, DefaultApi } from "th1";
+import { ApiClient, DefaultApi } from "th1nk";
 import { getApiInstance } from "./hooks/ApiInstance";
 import ErrorDialog from "./Popups/ErrorDialog";
 
 export default function Edit() {
-  
+
   const isLoggedIn = useAuthGuard();
   
   // Liste aller Cards (mit initialer Start-Card)

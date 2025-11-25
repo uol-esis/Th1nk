@@ -13,7 +13,7 @@ springdoc:
     oauth:
       client-id: < id >
 
-th1:
+th1nk:
   snapshot:
     dir: ./shared-snapshots
   security:

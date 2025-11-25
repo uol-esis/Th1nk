@@ -117,14 +117,14 @@ const getSchemaList = async function () {
   const generateNewSchema = async function () {
     setSelectedSchema(null);
     setIsLoading(true);
-    const {api, Th1} = await getApiInstance();
+    const {api, Th1nk} = await getApiInstance();
     if (!api ) {
       console.error("api is not loaded yet.");
       setErrorId(100);
       return;
     }
   
-    const settings = new Th1.TableStructureGenerationSettings(); 
+    const settings = new Th1nk.TableStructureGenerationSettings();
     const callback = function (error, data, response) {
       if (error) {
         parseError(error);

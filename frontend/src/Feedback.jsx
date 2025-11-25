@@ -31,8 +31,8 @@ export default function Feedback() {
     }
 
     async function sendToServer(feedbackString) {
-        const {api, Th1} = await getApiInstance();
-        let feedback = new Th1.Feedback();
+        const {api, Th1nk} = await getApiInstance();
+        let feedback = new Th1nk.Feedback();
         feedback.content = feedbackString;
         api.submitFeedback(feedback, (error, data, response) => {
             if (error) {

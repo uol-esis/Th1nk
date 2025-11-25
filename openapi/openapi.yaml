@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  description: TH1
-  title: TH1
+  description: Th1nk
+  title: Th1nk
   version: 1.28.0
 servers:
 - description: Local server

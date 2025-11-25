@@ -2,7 +2,7 @@
 import TableFromJSON from "./TableFromJSON";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { ApiClient, DefaultApi } from "th1";
+import { ApiClient, DefaultApi } from "th1nk";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import Alert from "./Alert";
 import Popup from "./Popup";
@@ -292,7 +292,7 @@ export default function Preview() {
       return null;
     }
     
-    const {api, Th1} = await getApiInstance();
+    const {api, Th1nk} = await getApiInstance();
     return new Promise((resolve, reject) => {
       api.createTableStructure(generatedSchema, (error, data, response) => {
         try{

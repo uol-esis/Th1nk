@@ -1,10 +1,6 @@
-# TH1-OpenAPI
+# Th1nk-OpenAPI
 
-This repository contains the OpenAPI specification for the TH1 API.
-
-- Backend: [TH1 Server](https://github.com/uol-esis/TH1)
-- Frontend:
-    - [JavaScript Client](https://github.com/uol-esis/TH1-JS-Client)
+This folder contains the OpenAPI specification for the Th1nk API.
 
 ---
 

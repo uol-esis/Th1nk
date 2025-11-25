@@ -8,11 +8,11 @@
         <version>3.4.6</version>
         <relativePath/> <!-- lookup parent fromRequest repository -->
     </parent>
-    <groupId>de.uol.pg-doener</groupId>
-    <artifactId>TH1</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
-    <name>TH1</name>
-    <description>TH1</description>
+    <groupId>de.uol.pgdoener</groupId>
+    <artifactId>Th1nk</artifactId>
+    <version>1.0.0</version>
+    <name>Th1nk</name>
+    <description>Th1nk</description>
 
     <properties>
         <java.version>21</java.version>
@@ -246,8 +246,8 @@
                                 https://raw.githubusercontent.com/uol-esis/TH1-OpenAPI/v1.28.0/openapi.yaml
                             </inputSpec>
                             <generatorName>spring</generatorName>
-                            <apiPackage>de.uol.pgdoener.th1.api</apiPackage>
-                            <modelPackage>de.uol.pgdoener.th1.application.dto</modelPackage>
+                            <apiPackage>de.uol.pgdoener.th1nk.api</apiPackage>
+                            <modelPackage>de.uol.pgdoener.th1nk.application.dto</modelPackage>
                             <generateModelTests>false</generateModelTests>
                             <generateApiTests>false</generateApiTests>
                             <addTestCompileSourceRoot>false</addTestCompileSourceRoot>
@@ -256,7 +256,7 @@
                             </supportingFilesToGenerate>
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <configOptions>
-                                <configPackage>de.uol.pgdoener.th1.config</configPackage>
+                                <configPackage>de.uol.pgdoener.th1nk.config</configPackage>
                                 <enumUnknownDefaultCase>true</enumUnknownDefaultCase>
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <delegatePattern>true</delegatePattern>
