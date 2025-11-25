@@ -1,0 +1,149 @@
+openapi: 3.0.3
+info:
+  title: TH1
+  description: TH1
+  version: 1.28.0
+
+servers:
+  - url: 'http://localhost:{port}/api/v1'
+    description: Local server
+    variables: {
+      port: {
+        default: '8080'
+      }
+    }
+  - url: 'http://pg-doener-dev.virt.uni-oldenburg.de:{port}/api/v1'
+    description: Dev server
+    variables: {
+      port: {
+        default: '8080'
+      }
+    }
+  - url: 'http://pg-doener-prod.virt.uni-oldenburg.de:{port}/api/v1'
+    description: Prod server
+    variables: {
+      port: {
+        default: '8080'
+      }
+    }
+
+paths:
+  /table-structures:
+    $ref: './paths/table-structures.yaml#/root'
+
+  /table-structures/{id}:
+    $ref: './paths/table-structures.yaml#/by-id'
+
+  /table-structures/generate:
+    $ref: './paths/table-structures.yaml#/generate'
+
+  /converter/{tableStructureId}:
+    $ref: './paths/converter.yaml#/table-structure-id'
+
+  /converter/preview:
+    $ref: './paths/converter.yaml#/preview'
+
+  /converter/file:
+    $ref: './paths/converter.yaml#/file'
+
+  /feedback:
+    $ref: './paths/feedback.yaml'
+
+components:
+  securitySchemes:
+    oAuth2Auth:
+      $ref: './components/securitySchemes/oAuth2.yaml'
+  schemas:
+    tableStructure:
+      $ref: './components/schemas/tableStructure.yaml'
+    structure:
+      $ref: './components/schemas/structure.yaml'
+    tableStructureSummary:
+      $ref: './components/schemas/tableStructureSummary.yaml'
+    structureSummary:
+      $ref: './components/schemas/structureSummary.yaml'
+    converterType:
+      $ref: './components/schemas/converterType.yaml'
+
+    removeRowByIndexStructure:
+      $ref: './components/schemas/removeRowByIndexStructure.yaml'
+    removeColumnByIndexStructure:
+      $ref: './components/schemas/removeColumnByIndexStructure.yaml'
+    removeGroupedHeaderStructure:
+      $ref: './components/schemas/removeGroupedHeaderStructure.yaml'
+    addHeaderNameStructure:
+      $ref: './components/schemas/addHeaderNameStructure.yaml'
+    headerPlacementType:
+      $ref: './components/schemas/enums/header_placement_type.yaml'
+    fillEmptyRowStructure:
+      $ref: './components/schemas/fillEmptyRowStructure.yaml'
+    fillEmptyColumnStructure:
+      $ref: './components/schemas/fillEmptyColumnStructure.yaml'
+    removeHeaderStructure:
+      $ref: './components/schemas/removeHeaderStructure.yaml'
+    removeFooterStructure:
+      $ref: './components/schemas/removeFooterStructure.yaml'
+    removeKeywordStructure:
+      $ref: './components/schemas/removeKeywordsStructure.yaml'
+    matcherType:
+      $ref: './components/schemas/enums/match_type.yaml'
+    replaceEntriesStructure:
+      $ref: './components/schemas/replaceEntriesStructure.yaml'
+    splitCellStructure:
+      $ref: './components/schemas/splitCellStructure.yaml'
+    removeInvalidRowsStructure:
+      $ref: './components/schemas/removeInvalidRowsStructure.yaml'
+    removeTrailingColumnStructure:
+      $ref: './components/schemas/removeTrailingColumnStructure.yaml'
+    removeLeadingColumnStructure:
+      $ref: './components/schemas/removeLeadingColumnStructure.yaml'
+    mergeColumnsStructure:
+      $ref: './components/schemas/mergeColumnsStructure.yaml'
+
+    feedback:
+      $ref: './components/schemas/feedback.yaml'
+
+    tableStructureGenerationSettings:
+      $ref: './components/schemas/tableStructureGenerationSettings.yaml'
+    removeHeaderSettings:
+      $ref: './components/schemas/generation/removeHeaderSettings.yaml'
+    removeFooterSettings:
+      $ref: './components/schemas/generation/removeFooterSettings.yaml'
+    removeColumnsSettings:
+      $ref: './components/schemas/generation/removeTrailingColumnSettings.yaml'
+    removeLeadingColumnsSettings:
+      $ref: './components/schemas/generation/removeLeadingColumnSettings.yaml'
+    removeInvalidRowsSettings:
+      $ref: './components/schemas/generation/removeInvalidRowsSettings.yaml'
+
+    reportType:
+      $ref: './components/schemas/reportType.yaml'
+    report:
+      $ref: './components/schemas/report.yaml'
+    columnTypeMismatchReport:
+      $ref: './components/schemas/reports/columnTypeMismatchReport.yaml'
+    columnTypeMismatch:
+      $ref: './components/schemas/reports/columnTypeMismatch.yaml'
+    groupedHeaderReport:
+      $ref: './components/schemas/reports/groupedHeaderReport.yaml'
+    emptyHeaderReport:
+      $ref: './components/schemas/reports/emptyHeaderReport.yaml'
+    emptyRowReport:
+      $ref: './components/schemas/reports/emptyRowReport.yaml'
+    emptyColumnReport:
+      $ref: './components/schemas/reports/emptyColumnReport.yaml'
+    sameAsHeaderReport:
+      $ref: './components/schemas/reports/sameAsHeaderReport.yaml'
+    missingEntryReport:
+      $ref: './components/schemas/reports/missingEntryReport.yaml'
+    mergeableColumnsReport:
+      $ref: './components/schemas/reports/mergeableColumnsReport.yaml'
+    splitRowReport:
+      $ref: './components/schemas/reports/splitRowReport.yaml'
+    sumReport:
+      $ref: './components/schemas/reports/sumReport.yaml'
+
+    tableStructureGenerationResponse:
+      $ref: './components/schemas/tableStructureGenerationResponse.yaml'
+    position:
+      $ref: './components/schemas/position.yaml'

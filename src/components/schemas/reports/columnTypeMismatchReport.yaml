@@ -1,0 +1,17 @@
+# columnTypeMismatchReport:
+description: |
+  This report indicates that entries in the specified column are not of the same type.
+  This excludes the first row as it assumes the first row is a header.
+  
+  The reportType MUST be COLUMN_TYPE_MISMATCH.
+type: object
+required:
+  - reportType
+  - mismatches
+properties:
+  reportType:
+    $ref: '../reportType.yaml'
+  mismatches:
+    type: array
+    items:
+      $ref: './columnTypeMismatch.yaml'

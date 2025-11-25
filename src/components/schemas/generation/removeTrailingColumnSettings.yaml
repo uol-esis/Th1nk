@@ -1,0 +1,15 @@
+# removeTrailingColumnsSettings:
+type: object
+required:
+  - enabled
+  - threshold
+  - blockList
+properties:
+  enabled:
+    type: boolean
+    default: true
+  blockList:
+    type: array
+    items:
+      type: string
+      minLength: 1

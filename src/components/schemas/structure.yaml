@@ -1,0 +1,73 @@
+#structure:
+description: |
+  This is the base for all converter structures.
+  The converterType is used as a discriminator to determine the specific structure.
+type: object
+oneOf:
+  - $ref: './removeRowByIndexStructure.yaml'
+  - $ref: './removeColumnByIndexStructure.yaml'
+  - $ref: './removeGroupedHeaderStructure.yaml'
+  - $ref: './fillEmptyRowStructure.yaml'
+  - $ref: './fillEmptyColumnStructure.yaml'
+  - $ref: './addHeaderNameStructure.yaml'
+  - $ref: './removeHeaderStructure.yaml'
+  - $ref: './removeFooterStructure.yaml'
+  - $ref: './replaceEntriesStructure.yaml'
+  - $ref: './splitCellStructure.yaml'
+  - $ref: './removeInvalidRowsStructure.yaml'
+  - $ref: './removeTrailingColumnStructure.yaml'
+  - $ref: './removeLeadingColumnStructure.yaml'
+  - $ref: './mergeColumnsStructure.yaml'
+  - $ref: './transposeMatrixStructure.yaml'
+  - $ref: './pivotMatrixStructure.yaml'
+  - $ref: './removeKeywordsStructure.yaml'
+discriminator:
+  propertyName: converterType
+  mapping:
+    REMOVE_GROUPED_HEADER: './removeGroupedHeaderStructure.yaml'
+    FILL_EMPTY_ROW: './fillEmptyRowStructure.yaml'
+    FILL_EMPTY_COLUMN: './fillEmptyColumnStructure.yaml'
+    REMOVE_COLUMN_BY_INDEX: './removeColumnByIndexStructure.yaml'
+    REMOVE_ROW_BY_INDEX: './removeRowByIndexStructure.yaml'
+    ADD_HEADER_NAME: './addHeaderNameStructure.yaml'
+    REMOVE_HEADER: './removeHeaderStructure.yaml'
+    REMOVE_FOOTER: './removeFooterStructure.yaml'
+    REPLACE_ENTRIES: './replaceEntriesStructure.yaml'
+    SPLIT_CELL: './splitCellStructure.yaml'
+    REMOVE_INVALID_ROWS: './removeInvalidRowsStructure.yaml'
+    REMOVE_TRAILING_COLUMN: './removeTrailingColumnStructure.yaml'
+    REMOVE_LEADING_COLUMN: './removeLeadingColumnStructure.yaml'
+    MERGE_COLUMNS: './mergeColumnsStructure.yaml'
+    TRANSPOSE_MATRIX: './transposeMatrixStructure.yaml'
+    PIVOT_MATRIX: './pivotMatrixStructure.yaml'
+    REMOVE_KEYWORD: './removeKeywordsStructure.yaml'
+required:
+  - converterType
+properties:
+  converterType:
+    $ref: './converterType.yaml'
+  name:
+    description: |
+      A name for the structure.
+      This can be used to identify the structure in the UI.
+      It can be any string.
+    type: string
+    minLength: 1
+  description:
+    description: |
+      A description for the structure.
+      This can be used to provide more information about the structure in the UI.
+      It can be any string.
+    type: string
+    minLength: 1
+example:
+  name: Resolve Grouped Header
+  description: Resolves the grouped header
+  converterType: REMOVE_GROUPED_HEADER
+  rowIndex:
+    - 0
+    - 1
+  columnIndex:
+    - 0
+  startRow: 3
+  startColumn: 0

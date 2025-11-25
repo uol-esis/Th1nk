@@ -1,0 +1,16 @@
+name: Validate OpenAPI Document
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Validate
+        run: |
+          ./bundle.sh
+          git diff --exit-code --name-only
+          ./validate.sh

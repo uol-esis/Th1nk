@@ -1,0 +1,22 @@
+#converterType:
+description: This enum is used as a discriminator for structures.
+type: string
+x-field-extra-annotation: "@de.uol.pgdoener.th1.api.validation.ValidConverterType"
+enum:
+  - REMOVE_GROUPED_HEADER
+  - FILL_EMPTY_ROW
+  - FILL_EMPTY_COLUMN
+  - REMOVE_COLUMN_BY_INDEX
+  - REMOVE_ROW_BY_INDEX
+  - ADD_HEADER_NAME
+  - REMOVE_FOOTER
+  - REMOVE_HEADER
+  - REPLACE_ENTRIES
+  - SPLIT_CELL
+  - REMOVE_INVALID_ROWS
+  - REMOVE_TRAILING_COLUMN
+  - REMOVE_LEADING_COLUMN
+  - MERGE_COLUMNS
+  - TRANSPOSE_MATRIX
+  - PIVOT_MATRIX
+  - REMOVE_KEYWORD

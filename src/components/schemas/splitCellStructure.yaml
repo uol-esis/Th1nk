@@ -1,0 +1,48 @@
+#splitRowStructure:
+description: |
+  This converter splits the entries in the specified column into multiple rows or columns.
+  The entries will be split by the specified delimiter.
+  The delimiter is a line break by default.
+  The new rows or columns will replace the original row or column.
+  If the specified column index is out of bounds, an error will be thrown.
+  If the specified delimiter is not found in the entry, the entry will not be split.
+  If the specified startRow is greater than the endRow, an error will be thrown.
+  If the specified startRow is out of bounds, an error will be thrown.
+  If the specified endRow is out of bounds, an error will be thrown.
+
+    The converterType MUST be SPLIT_ROW.
+type: object
+required:
+  - converterType
+  - columnIndex
+properties:
+  converterType:
+    $ref: './converterType.yaml'
+  columnIndex:
+    description: The index of the column with the entries to split
+    type: integer
+    minimum: 0
+  delimiter:
+    description: |
+      The delimiter to split the entries by.
+      Line break by default.
+    type: string
+    minLength: 1
+  mode:
+    description: |
+      The mode to split the entries.
+      Can be either 'row' or 'column'.
+      'row' will split the entries into multiple rows.
+      'column' will split the entries into multiple columns.
+    type: string
+    enum:
+      - row
+      - column
+  startRow:
+    description: The start row index of the area to split (inclusive).
+    type: integer
+    minimum: 0
+  endRow:
+    description: The end row index of the area to split (exclusive).
+    type: integer
+    minimum: 0

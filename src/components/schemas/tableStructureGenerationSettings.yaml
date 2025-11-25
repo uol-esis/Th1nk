@@ -1,0 +1,19 @@
+# tableStructureGenerationSettings:
+type: object
+properties:
+  removeHeader:
+    $ref: './generation/removeHeaderSettings.yaml'
+  removeFooter:
+    $ref: './generation/removeFooterSettings.yaml'
+  removeTrailingColumn:
+    $ref: './generation/removeTrailingColumnSettings.yaml'
+  removeLeadingColumn:
+    $ref: './generation/removeLeadingColumnSettings.yaml'
+  removeInvalidRows:
+    $ref: './generation/removeInvalidRowsSettings.yaml'
+  removeKeywords:
+    $ref: './generation/removeKeywordsSettings.yaml'
+  maxIterations:
+    type: integer
+    minimum: 1
+    default: 5

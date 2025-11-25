@@ -1,0 +1,18 @@
+# splitRowReport:
+description: |
+  This report indicates that the specified row can be split into multiple rows.
+  
+  The reportType MUST be SPLIT_ROW.
+type: object
+required:
+  - reportType
+  - columnIndex
+  - delimiter
+properties:
+  reportType:
+    $ref: '../reportType.yaml'
+  columnIndex:
+    type: integer
+    minimum: 0
+  delimiter:
+    type: string

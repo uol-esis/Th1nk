@@ -1,0 +1,10 @@
+#structureSummary:
+description: |
+  This is a summary of a structure.
+  It only contains the converterType to identify the use of the structure.
+type: object
+required:
+  - converterType
+properties:
+  converterType:
+    $ref: './converterType.yaml'

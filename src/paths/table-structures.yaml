@@ -1,0 +1,167 @@
+root:
+  get:
+    summary: Get all table structures
+    operationId: getTableStructures
+    security:
+      - oAuth2Auth:
+        - read:tablestructure
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '../components/schemas/tableStructureSummary.yaml'
+      '401':
+        description: Unauthorized
+  post:
+    summary: Create a new table structure
+    operationId: createTableStructure
+    security:
+      - oAuth2Auth:
+        - write:tablestructure
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/tableStructure.yaml'
+    responses:
+      '201':
+        description: Created
+        content:
+          application/json:
+            schema:
+              type: integer
+              format: int64
+              minimum: 1
+      '400':
+        description: Bad request
+      '401':
+        description: Unauthorized
+
+by-id:
+  get:
+    summary: Get a table structure by id
+    operationId: getTableStructure
+    security:
+      - oAuth2Auth:
+        - read:tablestructure
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/tableStructure.yaml'
+      '400':
+        description: Bad request
+      '401':
+        description: Unauthorized
+      '404':
+        description: Not found
+
+  put:
+    summary: Update table structure by id
+    operationId: updateTableStructure
+    security:
+      - oAuth2Auth:
+          - write:tablestructure
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/tableStructure.yaml'
+    responses:
+      '200':
+        description: OK
+      '400':
+        description: Bad request
+      '401':
+        description: Unauthorized
+      '404':
+        description: Not found
+
+  delete:
+    summary: Delete table structure by id
+    operationId: deleteTableStructure
+    security:
+      - oAuth2Auth:
+        - write:tablestructure
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+    responses:
+      '200':
+        description: OK
+      '400':
+        description: Bad request
+      '401':
+        description: Unauthorized
+      '404':
+        description: Not found
+
+generate:
+  post:
+    summary: Generate a tableStructure and return the result as a json
+    operationId: generateTableStructure
+    security:
+      - oAuth2Auth:
+        - read:tablestructure
+    parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+    requestBody:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            required:
+              - file
+              - settings
+            properties:
+              file:
+                type: string
+                format: binary
+              settings:
+                $ref: '../components/schemas/tableStructureGenerationSettings.yaml'
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/tableStructureGenerationResponse.yaml'
+      '400':
+        description: Bad request
+      '401':
+        description: Unauthorized

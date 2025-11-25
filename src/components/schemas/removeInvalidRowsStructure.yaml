@@ -1,0 +1,24 @@
+#removeInvalidRowsStructure:
+description: |
+  This converter removes invalid rows from the table.
+  Invalid rows are defined as the rows of the table which only contain a maximum of threshold invalid values.
+  The invalid values are empty cells by default but can be extended using the blacklist properties.
+  
+  The converterType MUST be REMOVE_INVALID_ROWS.
+type: object
+required:
+  - converterType
+properties:
+  converterType:
+    $ref: './converterType.yaml'
+  threshold:
+    description: The maximum number of invalid values in a row to be considered invalid.
+    type: integer
+    minimum: 0
+  blockList:
+    description: The list of values to be considered invalid.
+    type: array
+    minItems: 0
+    items:
+      type: string
+      minimum: 0

@@ -1,0 +1,20 @@
+#removeRowByIndexStructure:
+description: |
+  This converter removes the specified rows from the table.
+  If the specified row index is out of bounds, an error will be thrown.
+  
+  The converterType MUST be REMOVE_ROW_BY_INDEX.
+type: object
+required:
+  - converterType
+  - rowIndex
+properties:
+  converterType:
+    $ref: './converterType.yaml'
+  rowIndex:
+    description: The indices of the rows to remove
+    type: array
+    minItems: 1
+    items:
+      type: integer
+      minimum: 0
