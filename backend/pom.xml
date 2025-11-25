@@ -325,7 +325,7 @@
         <profile>
             <id>docker</id>
             <build>
-                <finalName>th1</finalName>
+                <finalName>th1nk</finalName>
             </build>
         </profile>
     </profiles>

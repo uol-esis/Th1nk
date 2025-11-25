@@ -26,4 +26,4 @@ th1nk:
         secret-key: <secret key>
         url: http://localhost:3900
         bucket:
-          name: th1-bucket
+          name: th1nk-bucket

@@ -6,7 +6,7 @@ echo "========================="
 echo "STARTING CONFIGURATION";
 echo "========================="
 
-if [ "$(docker exec garaged /garage bucket list | grep -c th1-bucket)" -eq 1 ]; then
+if [ "$(docker exec garaged /garage bucket list | grep -c th1nk-bucket)" -eq 1 ]; then
   echo "BUCKET ALREADY PRESENT. NOTHING TO DO."
 else
   echo "CONFIGURING NODE"
@@ -19,18 +19,18 @@ else
   echo "========================="
 
   echo "CREATING BUCKET"
-  garage bucket create th1-bucket
+  garage bucket create th1nk-bucket
   garage bucket list
-  garage bucket info th1-bucket
+  garage bucket info th1nk-bucket
 
 
   echo "CREATING KEY"
   # creating the key to access it
-  output=$(garage key create th1-app-key)
+  output=$(garage key create th1nk-app-key)
   KEY_ID=$(echo "$output" | awk -F': *' '/Key ID:/ {print $2}')
   SECRET_KEY=$(echo "$output" | awk -F': *' '/Secret key:/ {print $2}')
   garage key list
-  garage key info th1-app-key
+  garage key info th1nk-app-key
 
   echo "GRANTING KEY ACCESS TO BUCKET"
   garage bucket allow \
@@ -38,10 +38,10 @@ else
     --write \
     --owner \
     th1-bucket \
-    --key th1-app-key
+    --key th1nk-app-key
 
   echo "FINAL SUMMARY"
-  garage bucket info th1-bucket
+  garage bucket info th1nk-bucket
   echo "================"
   echo "================"
   echo "THE FOLLOWING KEY HAS BEEN GENERATED"

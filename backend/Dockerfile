@@ -30,7 +30,7 @@ RUN  mkdir /app && \
     chown -R pg:pg /app
 
 # Copy the JAR from the build stage
-COPY --from=build /app/target/th1.jar th1nk.jar
+COPY --from=build /app/target/th1nk.jar th1nk.jar
 
 # Change to 'pg' user
 USER pg

@@ -12,12 +12,12 @@ services:
       SPRING_DATASOURCE_PASSWORD: example
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/example
       SPRINGDOC_SWAGGER-UI_OAUTH_CLIENT-ID: th1
-      TH1_MB_API_KEY: key
-      TH1_MB_API_GENERAL_KEY: ${MB_GENERATED_KEY}
-      TH1_MB_BASEPATH: http://localhost:3000/api
-      TH1_SECURITY_ALLOWEDORIGINS: http://localhost:5173,http://locahost:8080,http://localhost
-      TH1_SECURITY_AUTHORIZATIONURL: http://localhost:8085/realms/th1/protocol/openid-connect/auth
-      TH1_SECURITY_TOKENURL: http://localhost:8085/realms/th1/protocol/openid-connect/token
+      TH1NK_MB_API_KEY: key
+      TH1NK_MB_API_GENERAL_KEY: ${MB_GENERATED_KEY}
+      TH1NK_MB_BASEPATH: http://localhost:3000/api
+      TH1NK_SECURITY_ALLOWEDORIGINS: http://localhost:5173,http://locahost:8080,http://localhost
+      TH1NK_SECURITY_AUTHORIZATIONURL: http://localhost:8085/realms/th1/protocol/openid-connect/auth
+      TH1NK_SECURITY_TOKENURL: http://localhost:8085/realms/th1/protocol/openid-connect/token
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8085/realms/th1
       SPRING_PROFILES_ACTIVE: noSecurity # comment out to enable security
       # LOGGING_LEVEL_DE_UOL_PGDOENER_TH1: DEBUG

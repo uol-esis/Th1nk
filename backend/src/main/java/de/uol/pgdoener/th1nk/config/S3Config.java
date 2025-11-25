@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-@ConditionalOnProperty(value = "th1.objectstorage.type", havingValue = "s3")
+@ConditionalOnProperty(value = "th1nk.objectstorage.type", havingValue = "s3")
 public class S3Config {
 
     private final ObjectStorageProperties osProperties;

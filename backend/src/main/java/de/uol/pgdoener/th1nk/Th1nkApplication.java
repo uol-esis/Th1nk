@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @ConfigurationPropertiesScan
 public class Th1nkApplication {
     public static void main(String[] args) {
-        //System.out.println(org.hibernate.Version.getVersionString());
         SpringApplication.run(Th1nkApplication.class, args);
     }
 }

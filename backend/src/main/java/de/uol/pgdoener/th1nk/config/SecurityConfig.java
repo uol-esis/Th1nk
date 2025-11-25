@@ -77,7 +77,7 @@ public class SecurityConfig {
             // read client roles
             Map<String, Map<String, Collection<String>>> resource_access = jwt.getClaim("resource_access");
             // TODO get client_id from env variable
-            Collection<String> roles = resource_access.get("th1").get("roles");
+            Collection<String> roles = resource_access.get("th1nk").get("roles");
 
             // read also realm roles
             Map<String, Collection<String>> realmAccess = jwt.getClaim("realm_access");
