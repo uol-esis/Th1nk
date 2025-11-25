@@ -1,0 +1,299 @@
+package de.uol.pgdoener.th1.domain.infrastructure;
+
+import de.uol.pgdoener.th1.domain.fileprocessing.service.FileProcessingService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.TestPropertySource;
+
+import java.io.InputStream;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+@TestPropertySource(properties = "spring.main.allow-bean-definition-overriding=true")
+public class FileProcessingServiceTest {
+
+    @Autowired
+    private FileProcessingService fileProcessingService;
+
+    @Test
+    public void testCsvWithVariousNumberAndDateFormats() throws Exception {
+        InputStream csvInputStream = getClass().getClassLoader().getResourceAsStream("test/mixed_formats.csv");
+
+        assert csvInputStream != null;
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "mixed_formats.csv",
+                "text/csv",
+                csvInputStream
+        );
+
+        String[][] result = fileProcessingService.process(mockFile, Optional.empty());
+
+        String[][] expected = {
+                {"id", "amount", "date"},
+                {"1", "1234.56", "2025-08-07"},
+                {"2", "1234.56", "2025-07-08"},
+                {"3", "1234.56", "2025-08-07"},
+                {"4", "1234.56", "2025-08-07"},
+                {"5", "1234.56", "2025-08-07"},
+                {"6", "1234", "2025-08-07"},
+                {"7", "1234.56", "2025-07-08"},
+                {"8", "1234.56", "2007-08-25"},
+                {"9", "1234.56", "2025-07-08"},
+                {"10", "1234", "2025-08-07"},
+        };
+
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testXlsxWithVariousNumberAndDateFormats() throws Exception {
+        InputStream csvInputStream = getClass().getClassLoader().getResourceAsStream("test/mixed_formats.xlsx");
+
+        assert csvInputStream != null;
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "mixed_formats.xlsx",
+                ".xlsx",
+                csvInputStream
+        );
+
+        String[][] result = fileProcessingService.process(mockFile, Optional.empty());
+
+        String[][] expected = {
+                {"id", "amount", "date"},
+                {"1", "1234.56", "2025-08-07"},
+                {"2", "1234.56", "2025-07-08"},
+                {"3", "1234.56", "2025-08-07"},
+                {"4", "1234.56", "2025-08-07"},
+                {"5", "1234.56", "2025-08-07"},
+                {"6", "1234", "2025-08-07"},
+                {"7", "1234.56", "2025-07-08"},
+                {"8", "1234.56", "2007-08-25"},
+                {"9", "1234.56", "2025-07-08"},
+                {"10", "1234", "2025-08-07"},
+        };
+
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testCsvFile1() throws Exception {
+        InputStream csvInputStream = getClass().getClassLoader().getResourceAsStream("test/file_process_service_test_file_1.csv");
+
+        assert csvInputStream != null;
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "file_process_service_test_file_1.csv",
+                "text/csv",
+                csvInputStream
+        );
+
+        String[][] result = fileProcessingService.process(mockFile, Optional.empty());
+
+        String[][] expected = {
+                {"", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", ""},
+                {"", "Annual Returns on Investments in", "", "", "", "", ""},
+                {"Year", "Stocks", "T.Bills", "T.Bonds", "", "", ""},
+                {"1928", "43.81", "3.08", "0.84", "", "", ""},
+                {"1929", "-8.30", "3.16", "4.20", "", "", ""},
+                {"1930", "-25.12", "4.55", "4.54", "", "", ""},
+                {"", "stocks", "tbills", "bonds", "", "", ""},
+                {"averages", "", "", "", "", "", ""}
+        };
+
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testCsvFile2() throws Exception {
+        InputStream csvInputStream = getClass().getClassLoader().getResourceAsStream("test/file_process_service_test_file_2.csv");
+
+        assert csvInputStream != null;
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "file_process_service_test_file_1.csv",
+                "text/csv",
+                csvInputStream
+        );
+
+        String[][] result = fileProcessingService.process(mockFile, Optional.empty());
+
+        String[][] expected = {
+                {"Text", "123", "TRUE", "2020-01-01", "", "", "#DIV/0!"},
+                {"String mit \"Quote\"", "456.789", "FALSE", "2024-12-31", "", "", "Fehler"},
+                {"Leer", "", "TRUE", "", "456.889", "", ""}
+        };
+
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testXlsxFile1() throws Exception {
+        InputStream csvInputStream = getClass().getClassLoader().getResourceAsStream("test/file_process_service_test_file_1.csv");
+
+        assert csvInputStream != null;
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "file_process_service_test_file_1.csv",
+                ".xlsx",
+                csvInputStream
+        );
+
+        String[][] result = fileProcessingService.process(mockFile, Optional.empty());
+
+        String[][] expected = {
+                {"", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", ""},
+                {"", "", "", "", "", "", ""},
+                {"", "Annual Returns on Investments in", "", "", "", "", ""},
+                {"Year", "Stocks", "T.Bills", "T.Bonds", "", "", ""},
+                {"1928", "43.81", "3.08", "0.84", "", "", ""},
+                {"1929", "-8.30", "3.16", "4.20", "", "", ""},
+                {"1930", "-25.12", "4.55", "4.54", "", "", ""},
+                {"", "stocks", "tbills", "bonds", "", "", ""},
+                {"averages", "", "", "", "", "", ""}
+        };
+
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testXlsxFile2() throws Exception {
+        InputStream csvInputStream = getClass().getClassLoader().getResourceAsStream("test/file_process_service_test_file_2.csv");
+
+        assert csvInputStream != null;
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "file_process_service_test_file_1.csv",
+                ".xlsx",
+                csvInputStream
+        );
+
+        String[][] result = fileProcessingService.process(mockFile, Optional.empty());
+
+        String[][] expected = {
+                {"Text", "123", "TRUE", "2020-01-01", "", "", "#DIV/0!"},
+                {"String mit \"Quote\"", "456.789", "FALSE", "2024-12-31", "", "", "Fehler"},
+                {"Leer", "", "TRUE", "", "456.889", "", ""}
+        };
+
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testOperatorSeparators() throws Exception {
+        InputStream csvInputStream = getClass().getClassLoader().getResourceAsStream("test/separator.csv");
+
+        assert csvInputStream != null;
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "separator.csv",
+                "text/csv",
+                csvInputStream
+        );
+
+        String[][] result = fileProcessingService.process(mockFile, Optional.empty());
+
+        String[][] expected = {
+                {"Value1", "Value2", "Value3", "Value4", "Value5"},
+                {"10/15", "20|25", "30:35", "a-b", "100-200"},
+                {"5/6", "7|8", "9:10", "c-d", "50-75"}
+        };
+
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testOperatorNoLetter() throws Exception {
+        InputStream csvInputStream = getClass().getClassLoader().getResourceAsStream("test/no_letter_values.csv");
+
+        assert csvInputStream != null;
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "no_letter_values.csv",
+                "text/csv",
+                csvInputStream
+        );
+
+        String[][] result = fileProcessingService.process(mockFile, Optional.empty());
+
+        String[][] expected = {
+                {"Value1", "Value2", "Value3", "Value4", "Value5"},
+                {":", "|", "/", "%", "&"},
+                {".", "-", "€", "$", "§"},
+                {".", "-", "3434", "345", "§"}
+        };
+
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testOperatorParagraphCsv() throws Exception {
+        InputStream csvInputStream = getClass().getClassLoader().getResourceAsStream("test/multiline_values.csv");
+
+        assert csvInputStream != null;
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "multiline_values.csv",
+                "text/csv",
+                csvInputStream
+        );
+
+        String[][] result = fileProcessingService.process(mockFile, Optional.empty());
+
+        String[][] expected = {
+                {"Value1", "Value2", "Value3", "Value4", "Value5"},
+                {"Value", "Value", "Value", "Value-A\nValue-B\nValue-C\nValue-D", "Value"},
+                {"Value", "Value", "Value", "Value-A\nValue-B\nValue-D", "Value"},
+                {"Value", "Value", "Value", "Value-A", "Value"}
+        };
+
+
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testOperatorParagraphXlsx() throws Exception {
+        InputStream csvInputStream = getClass().getClassLoader().getResourceAsStream("test/multiline_values.xlsx");
+
+        assert csvInputStream != null;
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "multiline_values.xlsx",
+                ".xlsx",
+                csvInputStream
+        );
+
+        String[][] result = fileProcessingService.process(mockFile, Optional.empty());
+
+        String[][] expected = {
+                {"", "Value1", "Value2", "Value3", "Value4", "Value5"},
+                {"", "Value", "Value", "Value", "Value-A\nValue-B\nValue-C\nValue-D", "Value"},
+                {"", "Value", "Value", "Value", "Value-A\nValue-B\nValue-D", "Value"},
+                {"", "Value", "Value", "Value", "Value-A", "Value"}
+        };
+
+        assertThat(result).isEqualTo(expected);
+    }
+}

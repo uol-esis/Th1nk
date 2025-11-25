@@ -1,0 +1,279 @@
+package de.uol.pgdoener.th1.api;
+
+import de.uol.pgdoener.th1.infastructure.persistence.repository.TableStructureRepository;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.nio.charset.StandardCharsets;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@Testcontainers
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
+@ActiveProfiles("prod")
+class TableStructuresApiTest {
+
+    private static final String basePath = "/api/v1/table-structures";
+
+    @Container
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17-alpine")
+            .withDatabaseName("test")
+            .withUsername("test")
+            .withPassword("test");
+    @Value("classpath:integrationTests/tableStructureI.json")
+    private Resource tableStructureI;
+    @Value("classpath:integrationTests/tableStructureII.json")
+    private Resource tableStructureII;
+    @Value("classpath:integrationTests/tableStructureIII.json")
+    private Resource tableStructureIII;
+    @Autowired
+    private TableStructureRepository tableStructureRepository;
+    @Autowired
+    private MockMvc mockMvc;
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        tableStructureRepository.deleteAll();
+    }
+
+    private SecurityMockMvcRequestPostProcessors.OAuth2LoginRequestPostProcessor authorizedLogin() {
+        return oauth2Login()
+                .authorities(
+                        new SimpleGrantedAuthority("write:tablestructure"),
+                        new SimpleGrantedAuthority("read:tablestructure"));
+    }
+
+    @Test
+    void createTableStructureEndpoint() throws Exception {
+
+        // load from resources
+        String tableStructureJson = tableStructureI.getContentAsString(StandardCharsets.UTF_8);
+
+        mockMvc.perform(post(basePath)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tableStructureJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(new BaseMatcher<>() {
+                    @Override
+                    public boolean matches(Object actual) {
+                        if (actual instanceof String id) {
+                            return tableStructureRepository.existsById(Long.parseLong(id));
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public void describeTo(Description description) {
+                        // irrelevant
+                    }
+                }));
+
+        Assertions.assertEquals(1, tableStructureRepository.count());
+
+    }
+
+    @Test
+    void createTableStructureEndpointSameIDConflict() throws Exception {
+
+        // load from resources
+        String tableStructureJson = tableStructureI.getContentAsString(StandardCharsets.UTF_8);
+
+        mockMvc.perform(post(basePath)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tableStructureJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+        mockMvc.perform(post(basePath)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tableStructureJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict());
+
+        Assertions.assertEquals(1, tableStructureRepository.count());
+
+    }
+
+    @Test
+    void getAllTableStructuresEndpoint() throws Exception {
+        // upload test structure
+        String tableStructureJson = tableStructureI.getContentAsString(StandardCharsets.UTF_8);
+
+        mockMvc.perform(post(basePath)
+                .with(authorizedLogin())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(tableStructureJson)
+                .accept(MediaType.APPLICATION_JSON));
+
+        // begin test
+        mockMvc.perform(get(basePath)
+                        .with(authorizedLogin()))
+                .andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void deleteTableStructuresEndpoint() throws Exception {
+
+        // load from resources
+        String tableStructureJson = tableStructureI.getContentAsString(StandardCharsets.UTF_8);
+
+        mockMvc.perform(post(basePath)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tableStructureJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        Long id = tableStructureRepository.findAll().iterator().next().getId();
+
+        mockMvc.perform(delete(basePath + "/" + id)
+                        .with(authorizedLogin()))
+                .andExpect(status().isNoContent());
+
+        Assertions.assertEquals(0, tableStructureRepository.count());
+
+    }
+
+    @Test
+    void deleteTableStructuresEndpointNonExistent() throws Exception {
+
+        mockMvc.perform(delete(basePath + "/1")
+                        .with(authorizedLogin()))
+                .andExpect(status().isNotFound());
+
+        Assertions.assertEquals(0, tableStructureRepository.count());
+
+    }
+
+    @Test
+    void deleteTableStructuresEndpointUnauthorized() throws Exception {
+        mockMvc.perform(delete(basePath + "/1"))
+                .andExpect(status().isUnauthorized());
+        Assertions.assertEquals(0, tableStructureRepository.count());
+    }
+
+    @Test
+    void updateTableStructureEndpointOtherName() throws Exception {
+        String tableStructureJson = tableStructureI.getContentAsString(StandardCharsets.UTF_8);
+        String updatedTableStructureJson = tableStructureII.getContentAsString(StandardCharsets.UTF_8);
+
+        mockMvc.perform(post(basePath)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tableStructureJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        Long id = tableStructureRepository.findAll().getFirst().getId();
+
+        mockMvc.perform(put(basePath + "/" + id)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedTableStructureJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        Assertions.assertTrue(
+                tableStructureRepository.findById(id)
+                        .map(ts -> "Updated table structure 1".equals(ts.getName()))
+                        .orElse(false)
+        );
+    }
+
+    @Test
+    void updateTableStructureEndpointWithSameName() throws Exception {
+        String tableStructureJson = tableStructureI.getContentAsString(StandardCharsets.UTF_8);
+        String updatedTableStructureJson = tableStructureIII.getContentAsString(StandardCharsets.UTF_8);
+
+        mockMvc.perform(post(basePath)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tableStructureJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        Long id = tableStructureRepository.findAll().getFirst().getId();
+
+        mockMvc.perform(put(basePath + "/" + id)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedTableStructureJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        var updated = tableStructureRepository.findById(id).orElseThrow();
+
+        Assertions.assertEquals("Table structure 1", updated.getName());
+        Assertions.assertEquals(5, updated.getEndColumn());
+        Assertions.assertEquals(50, updated.getEndRow());
+    }
+
+    @Test
+    void updateTableStructureEndpointWithAlreadyUsedName() throws Exception {
+        String tableStructureJson = tableStructureI.getContentAsString(StandardCharsets.UTF_8);
+        String updatedTableStructureJson = tableStructureII.getContentAsString(StandardCharsets.UTF_8);
+        String updatedTableStructureJson2 = tableStructureIII.getContentAsString(StandardCharsets.UTF_8);
+
+        mockMvc.perform(post(basePath)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(tableStructureJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(post(basePath)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedTableStructureJson)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        Long id = tableStructureRepository.findAll().getLast().getId();
+
+        mockMvc.perform(put(basePath + "/" + id)
+                        .with(authorizedLogin())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updatedTableStructureJson2)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isConflict());
+
+    }
+
+}
