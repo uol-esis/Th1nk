@@ -1,5 +1,47 @@
 # Development Docker Compose
 
+This project includes a predefined `docker-compose.yaml` file which should help you get all services started as fast as
+possible.
+
+To start all services required simply run:
+
+```shell
+docker compose up -d db metabase 
+```
+
+After this, you need to open the website of metabase at http://localhost:3000 in order to configure metabase to use the
+database and to create an API key which then can be set for TH1 via the `application-dev.yaml` or, when running the
+docker image of TH1, via the `.env`. Checkout the `.env.sample` to have the naming right.
+
+All other configurations - especially the setup of keycloak - should happen automatically.
+
+Please note: When using Docker Desktop to run docker images, you need to enable the usage of the option
+`network_mode: host` via the settings in docker desktop.
+
+## Setting up the stack in secure mode
+
+By default, the backend will be started with the profile `noSecurity` enabled. This means, that no authentication and
+authorization will be enforced. To start the stack in secure mode, you need to disable the `noSecurity` profile. This 
+can be done by removing the profile definition in the `docker-compose.yaml` file for the backend service.
+
+When starting the stack in secure mode, please make sure that all environment variables required for keycloak within 
+all other services, namely the backend and the frontend (if required), are configured correctly. (Mostly uncommenting 
+predefined env variables.)
+
+With this done you may start the required services with:
+
+```shell
+docker compose up -d db keycloak metabase frontend
+```
+
+If not done already, you need to configure metabase as described above.
+
+Then you may start the backend from source or using docker.
+
+Please obtain the required credentials for the development realm from the Readme in the root directory of the project.
+
+## (OPTIONAL) Setting up an S3 Objectstorage
+
 To make use of the object Storage you need to configure the object storage and obtain the credentials. All those steps
 have been gathered in individual scripts:
 
@@ -34,7 +76,7 @@ As Garage is just starting with developing a UI for bucket administration, the s
 configure the stack. However, once the UI is ready, we will have an eye on it to check if it can replace the current
 setup.
 
-## Why we chose Garage
+### Why we chose Garage
 
 For a long time MinIO seemed to be the most viable option when it comes to open source object storage solutions.
 However, with recent developments (https://github.com/minio/object-browser/pull/3509) it seems, that the project is
