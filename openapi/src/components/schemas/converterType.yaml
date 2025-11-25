@@ -1,7 +1,7 @@
 #converterType:
 description: This enum is used as a discriminator for structures.
 type: string
-x-field-extra-annotation: "@de.uol.pgdoener.th1.api.validation.ValidConverterType"
+x-field-extra-annotation: "@de.uol.pgdoener.th1nk.api.validation.ValidConverterType"
 enum:
   - REMOVE_GROUPED_HEADER
   - FILL_EMPTY_ROW

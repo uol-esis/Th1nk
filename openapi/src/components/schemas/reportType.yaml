@@ -1,6 +1,6 @@
 #reportType:
 type: string
-x-field-extra-annotation: "@de.uol.pgdoener.th1.api.validation.ValidReportType"
+x-field-extra-annotation: "@de.uol.pgdoener.th1nk.api.validation.ValidReportType"
 enum:
   - COLUMN_TYPE_MISMATCH
   - GROUPED_HEADER

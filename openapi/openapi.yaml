@@ -518,7 +518,7 @@ components:
       - PIVOT_MATRIX
       - REMOVE_KEYWORD
       type: string
-      x-field-extra-annotation: '@de.uol.pgdoener.th1.api.validation.ValidConverterType'
+      x-field-extra-annotation: '@de.uol.pgdoener.th1nk.api.validation.ValidConverterType'
     removeRowByIndexStructure:
       description: |
         This converter removes the specified rows from the table.
@@ -1095,7 +1095,7 @@ components:
       - SUM
       - TRANSPOSE_MATRIX
       type: string
-      x-field-extra-annotation: '@de.uol.pgdoener.th1.api.validation.ValidReportType'
+      x-field-extra-annotation: '@de.uol.pgdoener.th1nk.api.validation.ValidReportType'
     report:
       discriminator:
         mapping:
