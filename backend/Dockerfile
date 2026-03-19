@@ -1,5 +1,5 @@
 # Phase 1: Build
-FROM eclipse-temurin:21-jdk-alpine AS build
+FROM eclipse-temurin:25-jdk-alpine AS build
 
 # Create and copy app files
 RUN mkdir /app
@@ -15,7 +15,7 @@ RUN chmod +x ./mvnw
 RUN ./mvnw clean package -DskipTests --activate-profiles docker
 
 # Phase 2: Runtime
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 
 # Set work directory
 WORKDIR /opt/pg

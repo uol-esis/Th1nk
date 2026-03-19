@@ -1,7 +1,7 @@
 # Example compose file for local development and testing
 # DO NOT USE IN PRODUCTION!
 # DO NOT USE DEFAULT CREDENTIALS IN PRODUCTION!
-# Visit the documentation for more information about deployment (https://github.com/uol-esis/TH1/wiki/Deployment)
+# Visit the documentation for more information about deployment (https://github.com/uol-esis/Th1nk/wiki/Deployment)
 name: Th1nk
 services:
 
@@ -11,16 +11,16 @@ services:
       SPRING_DATASOURCE_USERNAME: example
       SPRING_DATASOURCE_PASSWORD: example
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/example
-      SPRINGDOC_SWAGGER-UI_OAUTH_CLIENT-ID: th1
+      SPRINGDOC_SWAGGER-UI_OAUTH_CLIENT-ID: th1nk
       TH1NK_MB_API_KEY: key
       TH1NK_MB_API_GENERAL_KEY: ${MB_GENERATED_KEY}
       TH1NK_MB_BASEPATH: http://localhost:3000/api
       TH1NK_SECURITY_ALLOWEDORIGINS: http://localhost:5173,http://locahost:8080,http://localhost
-      TH1NK_SECURITY_AUTHORIZATIONURL: http://localhost:8085/realms/th1/protocol/openid-connect/auth
-      TH1NK_SECURITY_TOKENURL: http://localhost:8085/realms/th1/protocol/openid-connect/token
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8085/realms/th1
+      TH1NK_SECURITY_AUTHORIZATIONURL: http://localhost:8085/realms/th1nk/protocol/openid-connect/auth
+      TH1NK_SECURITY_TOKENURL: http://localhost:8085/realms/th1nk/protocol/openid-connect/token
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8085/realms/th1nk
       SPRING_PROFILES_ACTIVE: noSecurity # comment out to enable security
-      # LOGGING_LEVEL_DE_UOL_PGDOENER_TH1: DEBUG
+      # LOGGING_LEVEL_DE_UOL_PGDOENER_TH1NK: DEBUG
     network_mode: host # host mode for token verification with keycloak
     depends_on:
       db:
@@ -32,8 +32,8 @@ services:
       args:
         # configure OAuth only if security is enabled in the backend
         # OAUTH_URL: http://localhost:8085
-        # OAUTH_REALM: th1
-        # OAUTH_CLIENT_ID: th1
+        # OAUTH_REALM: th1nk
+        # OAUTH_CLIENT_ID: th1nk
         OAUTH_ENABLED: false
     environment:
       API_HOST: http://127.0.0.1:8080
