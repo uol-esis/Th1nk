@@ -4,7 +4,15 @@ Th1nk is a project which aims to simplify the process of extracting and visualiz
 
 ## Installation
 
-To start Th1nk, simply run the following command:
+**TL;DR**:
+```bash
+git clone https://github.com/uol-esis/Th1nk.git
+cd Th1nk
+./install.sh
+```
+
+
+To start Th1nk, simply clone the repo and run the following command:
 
 ```bash
 ./install.sh
@@ -12,4 +20,5 @@ To start Th1nk, simply run the following command:
 
 > [!CAUTION]
 > This will start Th1nk in an unsecure way. Please consult the wiki for a properly secured deployment.
+
 
