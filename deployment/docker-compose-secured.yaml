@@ -61,6 +61,8 @@ services:
 
   metabase:
     image: metabase/metabase:v0.57.2.1
+    environment:
+     MB_API_KEY:  key    
     volumes:
       - /dev/urandom:/dev/random:ro
     ports:
