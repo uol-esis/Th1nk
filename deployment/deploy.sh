@@ -9,27 +9,27 @@ select yn in "Default" "Secured"; do
   esac
 done
 
-touch deployment/.env
-echo "MB_GENERATED_KEY=<replace me>" >> deployment/.env
+touch .env
+echo "MB_GENERATED_KEY=<replace me>" >> .env
  
 if [ "$secured" = true ]; then
-  mkdir -p deployment/data/realms
+  mkdir -p data/realms
 
   # download file from github.com/uol-esis/th1nk/blob/main/deployment/docker-compose-secured.yaml
-  curl -o deployment/docker-compose.yaml https://raw.githubusercontent.com/uol-esis/th1nk/main/deployment/docker-compose-secured.yaml
+  curl -o docker-compose.yaml https://raw.githubusercontent.com/uol-esis/th1nk/main/deployment/docker-compose-secured.yaml
 
   # download file for keycloak realm at github.com/uol-esis/th1nk/blob/main/deployment/data/realms/th1nk-realms.json
-  curl -o deployment/data/realms/th1nk-realms.json https://raw.githubusercontent.com/uol-esis/th1nk/main/deployment/data/realms/th1nk-realms.json
+  curl -o data/realms/th1nk-realms.json https://raw.githubusercontent.com/uol-esis/th1nk/main/deployment/data/realms/th1nk-realms.json
 
-  docker compose -f deployment/docker-compose.yaml up -d frontend db metabase keycloak
+  docker compose up -d frontend db metabase keycloak
 
 else
   echo "Please note that this startup does not secure the application. Please read the documentation for more information on how to secure your deployment."
   
   # download file from github.com/uol-esis/th1nk/blob/main/deployment/docker-compose.yaml
-  curl -o deployment/docker-compose.yaml https://raw.githubusercontent.com/uol-esis/th1nk/main/deployment/docker-compose.yaml
+  curl -o docker-compose.yaml https://raw.githubusercontent.com/uol-esis/th1nk/main/deployment/docker-compose.yaml
 
-  docker compose -f deployment/docker-compose.yaml up -d frontend db metabase
+  docker compose up -d frontend db metabase
   
 fi
 
@@ -40,7 +40,7 @@ echo "Obtaining API key with Administrator permissions: https://www.metabase.com
 echo "Provide the obtained API key as an environment variable named MB_GENERATED_KEY via the '.env' file."
 read -p "Press enter to continue after configuration"
 
-docker compose -f deployment/docker-compose.yaml up -d backend
+docker compose up -d backend
 
 echo "Th1nk is now running. You can access the frontend at http://localhost"
-echo "To stop the application, run 'docker compose -f deployment/docker-compose.yaml down'"
+echo "To stop the application, run 'docker compose down'"
