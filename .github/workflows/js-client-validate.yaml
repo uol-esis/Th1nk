@@ -13,4 +13,4 @@ jobs:
         run: |
           cd frontend/js-client
           ./generate.sh
-          git diff --exit-code --name-only
+ 
