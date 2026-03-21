@@ -16,6 +16,10 @@ ENV VITE_OAUTH_ENABLE=$OAUTH_ENABLED
 
 WORKDIR /app
 
+# prepare js-client for build
+COPY js-client ./js-client
+RUN npm pack
+
 COPY package*.json ./
 RUN apk add --no-cache git
 

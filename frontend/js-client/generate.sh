@@ -10,3 +10,9 @@ docker run --rm \
   -g javascript \
   -t /local/templates \
   -o /local
+
+docker run --rm \
+  -u "${UID}":"${GID}" \
+  -v "${PWD}":/local \
+  node:lts-alpine \
+  sh -c "cd /local && npm install && npm run build && npm pack"
