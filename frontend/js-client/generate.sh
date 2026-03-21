@@ -14,5 +14,5 @@ docker run --rm \
 docker run --rm \
   -u "${UID}":"${GID}" \
   -v "${PWD}":/local \
-  node:lts-alpine \
+  node:24.14-alpine \
   sh -c "cd /local && npm install && npm run build && npm pack"
