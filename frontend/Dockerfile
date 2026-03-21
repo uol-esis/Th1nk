@@ -18,7 +18,7 @@ WORKDIR /app
 
 # prepare js-client for build
 COPY js-client ./js-client
-RUN npm pack
+RUN cd js-client && npm pack
 
 COPY package*.json ./
 RUN apk add --no-cache git
