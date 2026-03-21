@@ -1,0 +1,65 @@
+name: Th1nk Demo
+services:
+  frontend:
+    ports:
+      - 80:80
+    build:
+      context: git@github.com:uol-esis/Th1nk.git#install-script:frontend
+      args:
+        OAUTH_ENABLED: false
+    environment:
+      API_HOST: http://backend:8080
+      METABASE_HOST: http://localhost:3000
+
+  backend:
+    build:
+      context: git@github.com:uol-esis/Th1nk.git#main:backend
+    environment:
+      SPRING_DATASOURCE_USERNAME: example
+      SPRING_DATASOURCE_PASSWORD: example
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/example
+      TH1NK_MB_API_KEY: key
+      TH1NK_MB_API_GENERAL_KEY: ${MB_GENERATED_KEY}
+      TH1NK_MB_BASEPATH: http://metabase:3000/api
+      SPRING_PROFILES_ACTIVE: noSecurity
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: example
+      PGUSER: example
+    # Add a volume to the db if you want to reuse uploaded data
+    # volumes:
+    #   - db-data:/var/lib/postgresql/data
+    healthcheck:
+      start_period: 5s
+      test: [ "CMD-SHELL", "pg_isready" ]
+
+  metabase:
+    image: metabase/metabase:v0.57.2.1
+    container_name: metabase
+    hostname: metabase
+    volumes:
+      - /dev/urandom:/dev/random:ro
+    ports:
+      - 3000:3000
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: example
+      MB_DB_PORT: 5432
+      MB_DB_USER: example
+      MB_DB_PASS: example
+      MB_DB_HOST: db
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: curl --fail -I http://localhost:3000/api/health || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 5
