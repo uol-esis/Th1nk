@@ -2,7 +2,7 @@ name: Th1nk Demo Secured
 services:
   frontend:
     build:
-      context: git@github.com:uol-esis/Th1nk.git#install-script:frontend
+      context: git@github.com:uol-esis/Th1nk.git#main:frontend
       args:
         OAUTH_URL: http://localhost:8085
         OAUTH_REALM: th1nk
