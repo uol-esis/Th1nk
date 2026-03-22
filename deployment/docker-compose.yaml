@@ -4,7 +4,7 @@ services:
     ports:
       - 80:80
     build:
-      context: git@github.com:uol-esis/Th1nk.git#main:frontend
+      context: https://github.com/uol-esis/Th1nk.git#main:frontend
       args:
         OAUTH_ENABLED: false
     environment:
@@ -13,7 +13,7 @@ services:
 
   backend:
     build:
-      context: git@github.com:uol-esis/Th1nk.git#main:backend
+      context: https://github.com/uol-esis/Th1nk.git#main:backend
     environment:
       SPRING_DATASOURCE_USERNAME: example
       SPRING_DATASOURCE_PASSWORD: example
