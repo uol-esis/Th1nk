@@ -4,7 +4,7 @@ services:
     ports:
       - 80:80
     build:
-      context: git@github.com:uol-esis/Th1nk.git#install-script:frontend
+      context: git@github.com:uol-esis/Th1nk.git#main:frontend
       args:
         OAUTH_ENABLED: false
     environment:
