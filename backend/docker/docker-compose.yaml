@@ -28,7 +28,7 @@ services:
 
   frontend:
     build:
-      context: https://github.com/uol-esis/Frontend.git
+      context: ../../frontend
       args:
         # configure OAuth only if security is enabled in the backend
         # OAUTH_URL: http://localhost:8085

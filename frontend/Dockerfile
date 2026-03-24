@@ -1,5 +1,5 @@
 # Stage 1: Build the React application
-FROM node:lts-alpine AS builder
+FROM node:24.14-alpine AS builder
 
 
 # Define build arguments for environment variables
@@ -15,6 +15,10 @@ ENV VITE_OAUTH_CLIENT_ID=$OAUTH_CLIENT_ID
 ENV VITE_OAUTH_ENABLE=$OAUTH_ENABLED
 
 WORKDIR /app
+
+# prepare js-client for build
+COPY js-client ./js-client
+RUN cd js-client && npm install && npm pack
 
 COPY package*.json ./
 RUN apk add --no-cache git
