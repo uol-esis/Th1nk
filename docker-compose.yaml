@@ -1,0 +1,149 @@
+services:
+  frontend:
+    ports:
+      - "${HTTP_PORT}:80"
+    build:
+      context: ./frontend
+      args:
+        OAUTH_URL: ${KEYCLOAK_HOST}
+        OAUTH_REALM: th1nk
+        OAUTH_CLIENT_ID: th1nk
+        OAUTH_ENABLED: true
+    restart: unless-stopped
+    environment:
+      API_HOST: http://127.0.0.1:8080
+      METABASE_HOST: ${METABASE_HOST}
+    depends_on:
+      backend:
+        condition: service_started
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    environment:
+      APP_SECURITY_ENABLED: true
+      SPRING_DATASOURCE_USERNAME: backend
+      SPRING_DATASOURCE_PASSWORD: ${BACKEND_DB_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://th1-db:5432/backend
+      TH1NK_MB_API_KEY: ${MB_API_KEY}
+      TH1NK_MB_API_GENERAL_KEY: ${MB_GENERAL_KEY}
+      TH1NK_MB_BASEPATH: ${METABASE_HOST}/api
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: ${KEYCLOAK_HOST}/realms/th1nk
+      SERVER_FORWARD-HEADERS-STRATEGY: framework
+      TZ: "Europe/Berlin"
+    volumes:
+      - snapshots:/app/snapshots
+    depends_on:
+      th1-db:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4.5
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${KEYCLOAK_PORT}:8080"
+    depends_on:
+      keycloak-db:
+        condition: service_healthy
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_ADMIN}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+      KC_HOSTNAME: ${KEYCLOAK_HOST}
+      KC_HTTP_ENABLED: true
+      KC_PROXY_HEADERS: xforwarded
+    command: [ "start-dev" , "--import-realm" ]
+    volumes:
+      - "./backend/docker/data/realms:/opt/keycloak/data/import"
+
+  metabase:
+    image: metabase/metabase:v0.57.2.1
+    restart: unless-stopped
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase
+      MB_DB_PORT: 5432
+      MB_DB_USER: metabase
+      MB_DB_PASS: ${METABASE_DB_PASSWORD}
+      MB_DB_HOST: metabase-db
+    ports:
+      - "3000:${METABASE_PORT}"
+    depends_on:
+      metabase-db:
+        condition: service_healthy
+      map-server:
+        condition: service_started 
+    healthcheck:
+      test: curl --fail -I ${METABASE_HOST}/api/health || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  th1-db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: backend
+      POSTGRES_USER: backend
+      POSTGRES_PASSWORD: ${BACKEND_DB_PASSWORD}
+      PGUSER: backend
+    volumes:
+      - th1-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  keycloak-db:
+    image: postgres:17.4-alpine
+    container_name: keycloak-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=${KEYCLOAK_DB_PASSWORD}
+      - PGUSER=keycloak
+    volumes:
+      - keycloak-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  map-server:
+    image: httpd:2.4-alpine
+    container_name: map-server
+    restart: unless-stopped
+    volumes:
+      - "./backend/docker/data/maps:/usr/local/apache2/htdocs/"
+
+  metabase-db:
+    image: postgres:17.4-alpine
+    container_name: metabase-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=metabase
+      - POSTGRES_USER=metabase
+      - POSTGRES_PASSWORD=${METABASE_DB_PASSWORD}
+      - PGUSER=metabase
+    volumes:
+      - metabase-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  snapshots:
+  th1-data:
+  metabase-data:
+  keycloak-data:
