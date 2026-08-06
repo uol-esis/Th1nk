@@ -9,9 +9,10 @@ services:
         OAUTH_REALM: th1nk
         OAUTH_CLIENT_ID: th1nk
         OAUTH_ENABLED: true
+      network: host
     restart: unless-stopped
     environment:
-      API_HOST: http://127.0.0.1:8080
+      API_HOST: ${API_HOST}
       METABASE_HOST: ${METABASE_HOST}
     depends_on:
       backend:
@@ -20,6 +21,9 @@ services:
   backend:
     build:
       context: ./backend
+      network: host
+    ports:
+      - "${API_PORT}:8080"
     restart: unless-stopped
     environment:
       APP_SECURITY_ENABLED: true
@@ -30,7 +34,10 @@ services:
       TH1NK_MB_API_GENERAL_KEY: ${MB_GENERAL_KEY}
       TH1NK_MB_BASEPATH: ${METABASE_HOST}/api
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: ${KEYCLOAK_HOST}/realms/th1nk
-      SERVER_FORWARD-HEADERS-STRATEGY: framework
+      TH1_SECURITY_AUTHORIZATIONURL: ${KEYCLOAK_HOST}/realms/th1nk/protocol/openid-connect/auth
+      TH1_SECURITY_TOKENURL: ${KEYCLOAK_HOST}/realms/th1nk/protocol/openid-connect/token
+      # SERVER_FORWARD-HEADERS-STRATEGY: framework
+      TH1_SECURITY_ALLOWEDORIGINS: ${HOST}
       TZ: "Europe/Berlin"
     volumes:
       - snapshots:/app/snapshots
@@ -72,8 +79,9 @@ services:
       MB_DB_USER: metabase
       MB_DB_PASS: ${METABASE_DB_PASSWORD}
       MB_DB_HOST: metabase-db
+      MB_API_KEY: ${MB_API_KEY}
     ports:
-      - "3000:${METABASE_PORT}"
+      - "${METABASE_PORT}:3000"
     depends_on:
       metabase-db:
         condition: service_healthy
