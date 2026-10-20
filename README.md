@@ -28,18 +28,20 @@ Create a `.env` file in the project root and fill in the following values:
 # Ports (used by the application and optionally by a reverse proxy)
 HTTP_PORT=3000
 API_PORT=3801
-METABASE_PORT=3002
-KEYCLOAK_PORT=8003
+KEYCLOAK_PORT=8002
+METABASE_PORT=3003
+
 
 # Public hostnames (used by the reverse proxy / TLS setup)
-API_HOST=api.example.com
-METABASE_HOST=dashboard.example.com
-KEYCLOAK_HOST=auth.example.com
+HOST=https://example.de
+API_HOST=https://api.example.de
+METABASE_HOST=https://dashboard.example.de
+KEYCLOAK_HOST=https://auth.example.de
 
 # Database passwords (generate securely, e.g. with openssl rand -hex 32)
 METABASE_DB_PASSWORD=
-BACKEND_DB_PASSWORD=
 KEYCLOAK_DB_PASSWORD=
+BACKEND_DB_PASSWORD=
 
 # Keycloak admin credentials
 KEYCLOAK_ADMIN=admin
@@ -110,11 +112,11 @@ $ docker compose up -d
 ### 6. Configure Keycloak
 
 1. Open Keycloak in your browser and log in to the **master** realm using `KEYCLOAK_ADMIN` and `KEYCLOAK_ADMIN_PASSWORD`.
-2. Switch to the **th1nk** realm.
+2. Switch to the **th1nk** realm (Manage realms).
 3. Navigate to **Clients → th1ink** and update the following fields, then save:
-   - **Root URL:** `https://example.com/`
-   - **Home URL:** `https://example.com/`
-   - **Valid redirect URIs:** `https://example.com/*`
+   - **Root URL:** `HOST/` from your .env
+   - **Home URL:** `HOST/` from your .env
+   - **Valid redirect URIs:** `HOST/*` from your .env
 4. Navigate to **Clients → th1ink → Roles** and ensure all roles except `visitor` and `user` are assigned as needed.
 
 #### Adding users
