@@ -128,7 +128,6 @@ services:
 
   map-server:
     image: httpd:2.4-alpine
-    container_name: map-server
     restart: unless-stopped
     volumes:
       - "./backend/docker/data/maps:/usr/local/apache2/htdocs/"
