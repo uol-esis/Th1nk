@@ -45,9 +45,9 @@ KEYCLOAK_DB_PASSWORD=
 KEYCLOAK_ADMIN=admin
 KEYCLOAK_ADMIN_PASSWORD=<password>
 
-# Set after initial Metabase setup (see step 4)
-MB_API_KEY=<api_key>
-MB_GENERAL_KEY=<key>
+# Metabase secrets
+MB_API_KEY=<api_key> # generate securely, e.g. with openssl rand -hex 32
+MB_GENERAL_KEY=<key> # Set after initial Metabase setup (see step 4)
 ```
 
 You can generate secure passwords with:
@@ -86,11 +86,10 @@ $ docker compose up -d th1-db keycloak-db keycloak metabase-db metabase
 4. Generate an API key:
    - Go to **Admin Settings → Authentication → API Keys → Create new**
    - Name: `key`, Role: **Administrator**
-   - Copy both the **API key** and the **General key**.
+   - Copy the **General key**.
 5. Add the keys to your `.env`:
 
 ```console
-$ echo "MB_API_KEY=<your-api-key>" >> .env
 $ echo "MB_GENERAL_KEY=<your-general-key>" >> .env
 ```
 
