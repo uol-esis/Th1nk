@@ -117,13 +117,12 @@ $ docker compose up -d
    - **Root URL:** `HOST/` from your .env
    - **Home URL:** `HOST/` from your .env
    - **Valid redirect URIs:** `HOST/*` from your .env
-4. Navigate to **Clients → th1ink → Roles** and ensure all roles except `visitor` and `user` are assigned as needed.
 
 #### Adding users
 
 **Data supplier:**
 1. Go in keycloak to **Users → Add user** in the th1nk realm.
-2. After creating the user, open their **Role mapping** tab and assign the **admin** role.
+2. After creating the user, open their **Role mapping** tab and assign the **user** role.
 
 **Data consumer:**
 1. Go in metabase to **Admin Settings → People → Invite user**.
